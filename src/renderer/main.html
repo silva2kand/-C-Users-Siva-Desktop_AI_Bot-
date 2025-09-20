@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bot Settings</title>
+    <link rel="stylesheet" href="../styles/main.css">
+</head>
+<body>
+    <div class="settings-container">
+        <header class="header">
+            <h1>Desktop Floating Bots</h1>
+            <p>Configure your AI assistant</p>
+        </header>
+
+        <div class="settings-content">
+            <div class="setting-group">
+                <h3>Bot Configuration</h3>
+                <div class="setting-item">
+                    <label for="bot-name">Bot Name:</label>
+                    <input type="text" id="bot-name" value="Assistant" maxlength="20">
+                </div>
+                
+                <div class="setting-item">
+                    <label for="always-on-top">Always on Top:</label>
+                    <input type="checkbox" id="always-on-top" checked>
+                </div>
+                
+                <div class="setting-item">
+                    <label for="auto-start">Auto Start with System:</label>
+                    <input type="checkbox" id="auto-start">
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h3>Appearance</h3>
+                <div class="setting-item">
+                    <label for="theme">Theme:</label>
+                    <select id="theme">
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                        <option value="auto">Auto</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <h3>AI Configuration</h3>
+                <div class="setting-item">
+                    <label for="api-key">OpenAI API Key:</label>
+                    <input type="password" id="api-key" placeholder="sk-...">
+                    <small>Enter your OpenAI API key to enable AI responses</small>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="save-btn" class="btn-primary">Save Settings</button>
+                <button id="toggle-bot-btn" class="btn-secondary">Toggle Bot Visibility</button>
+                <button id="close-settings-btn" class="btn-secondary">Close</button>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>Desktop Floating Bots v1.0.0</p>
+        </footer>
+    </div>
+
+    <script src="../scripts/main.js"></script>
+</body>
+</html>

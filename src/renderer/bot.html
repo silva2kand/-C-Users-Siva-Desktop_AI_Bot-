@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desktop Floating Bot</title>
+    <link rel="stylesheet" href="../styles/bot.css">
+</head>
+<body>
+    <div class="bot-container">
+        <div class="bot-header">
+            <div class="bot-avatar">🤖</div>
+            <div class="bot-name">Assistant</div>
+            <div class="bot-controls">
+                <button id="minimize-btn" class="control-btn">−</button>
+                <button id="close-btn" class="control-btn">×</button>
+            </div>
+        </div>
+        
+        <div class="chat-container">
+            <div class="messages" id="messages">
+                <div class="message bot-message">
+                    <div class="message-content">
+                        Hello! I'm your desktop assistant. How can I help you today?
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-container">
+                <input type="text" id="message-input" placeholder="Ask me anything..." maxlength="500">
+                <button id="send-btn" class="send-btn">→</button>
+            </div>
+        </div>
+        
+        <div class="status-bar">
+            <span class="status-indicator online"></span>
+            <span class="status-text">Online</span>
+        </div>
+    </div>
+
+    <script src="../scripts/bot.js"></script>
+</body>
+</html>
