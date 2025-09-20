@@ -1,9 +1,11 @@
 const { app, BrowserWindow, Tray, Menu, ipcMain, screen } = require('electron');
 const path = require('path');
 const Store = require('electron-store');
+const AIService = require('./services/aiService');
 
 // Initialize electron store for settings persistence
 const store = new Store();
+const aiService = new AIService();
 
 class DesktopFloatingBot {
   constructor() {
@@ -128,12 +130,19 @@ class DesktopFloatingBot {
         botName: 'Assistant',
         alwaysOnTop: true,
         autoStart: false,
-        theme: 'light'
+        theme: 'light',
+        apiKey: ''
       });
     });
 
     ipcMain.handle('save-settings', (event, settings) => {
       store.set('settings', settings);
+      
+      // Update AI service with new API key
+      if (settings.apiKey) {
+        aiService.setApiKey(settings.apiKey);
+      }
+      
       return true;
     });
 
@@ -151,9 +160,41 @@ class DesktopFloatingBot {
     });
 
     ipcMain.handle('send-message', async (event, message) => {
-      // Placeholder for AI integration
-      // This will be connected to OpenAI API or other AI service
-      return `Echo: ${message}`;
+      try {
+        // Get conversation history from store (optional)
+        const history = store.get('conversationHistory', []);
+        
+        // Send message to AI service
+        const response = await aiService.sendMessage(message, history);
+        
+        // Optionally save conversation history
+        const newHistory = [
+          ...history,
+          { role: 'user', content: message },
+          { role: 'assistant', content: response }
+        ];
+        
+        // Keep only last 10 exchanges to prevent storage bloat
+        const trimmedHistory = newHistory.slice(-20);
+        store.set('conversationHistory', trimmedHistory);
+        
+        return response;
+      } catch (error) {
+        console.error('Error processing message:', error);
+        return 'Sorry, I encountered an error processing your message. Please try again.';
+      }
+    });
+
+    ipcMain.handle('clear-conversation', () => {
+      store.delete('conversationHistory');
+      return true;
+    });
+
+    ipcMain.handle('get-ai-status', () => {
+      return {
+        configured: aiService.isConfigured(),
+        model: aiService.model
+      };
     });
   }
 
@@ -163,6 +204,12 @@ class DesktopFloatingBot {
     this.createBotWindow();
     this.createTray();
     this.setupIPC();
+
+    // Load existing settings and configure AI service
+    const settings = store.get('settings', {});
+    if (settings.apiKey) {
+      aiService.setApiKey(settings.apiKey);
+    }
 
     // Show bot window by default
     setTimeout(() => {

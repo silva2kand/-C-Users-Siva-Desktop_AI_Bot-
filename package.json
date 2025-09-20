@@ -34,6 +34,17 @@
     "axios": "^1.5.0",
     "electron-store": "^8.1.0"
   },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "coverageDirectory": "coverage",
+    "coverageReporters": ["text", "lcov", "html"]
+  },
   "build": {
     "appId": "com.silva2kand.desktop-floating-bots",
     "productName": "Desktop Floating Bots",
